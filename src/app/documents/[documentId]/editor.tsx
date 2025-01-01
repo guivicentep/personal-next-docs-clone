@@ -3,6 +3,7 @@
 import { useEditor, EditorContent } from '@tiptap/react'
 import { useEditorStore } from '@/store/use-editor-store'
 import { FontSizeExtension } from '@/extensions/font-size'
+import { LineHeightExtension } from '@/extensions/line-height'
 
 import TaskItem from '@tiptap/extension-task-item'
 import TaskList from '@tiptap/extension-task-list'
@@ -58,6 +59,10 @@ export const Editor = () => {
     },
     extensions: [
       StarterKit,
+      LineHeightExtension.configure({
+        types: ['heading', 'paragraph'],
+        defaultLineHeight: 'normal',
+      }),
       FontSizeExtension,
       Link.configure({
         openOnClick: false,
