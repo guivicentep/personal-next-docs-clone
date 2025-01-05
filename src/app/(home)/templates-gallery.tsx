@@ -14,6 +14,7 @@ import {
 } from '@/components/ui/carousel'
 import { templates } from '@/constants/templates'
 import { api } from '../../../convex/_generated/api'
+import { toast } from 'sonner'
 
 export const TemplatesGallery = () => {
   const router = useRouter()
@@ -23,7 +24,9 @@ export const TemplatesGallery = () => {
   const onTemplateClick = (title: string, initialContent: string) => {
     setIsCreating(true)
     create({ title, initialContent })
+      .catch(() => toast.error('Something went wrong'))
       .then((documentId) => {
+        toast.success('Document created')
         router.push(`/documents/${documentId}`)
       })
       .finally(() => {
