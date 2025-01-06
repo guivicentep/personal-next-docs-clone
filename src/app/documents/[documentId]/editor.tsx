@@ -4,6 +4,7 @@ import { useEditor, EditorContent } from '@tiptap/react'
 import { useEditorStore } from '@/store/use-editor-store'
 import { FontSizeExtension } from '@/extensions/font-size'
 import { LineHeightExtension } from '@/extensions/line-height'
+import { useLiveblocksExtension } from '@liveblocks/react-tiptap'
 
 import TaskItem from '@tiptap/extension-task-item'
 import TaskList from '@tiptap/extension-task-list'
@@ -22,8 +23,10 @@ import Highlight from '@tiptap/extension-highlight'
 import Link from '@tiptap/extension-link'
 import TextAlign from '@tiptap/extension-text-align'
 import { Ruler } from './ruler'
+import { Threads } from './threads'
 
 export const Editor = () => {
+  const liveblocks = useLiveblocksExtension()
   const { setEditor } = useEditorStore()
 
   const editor = useEditor({
@@ -60,7 +63,10 @@ export const Editor = () => {
       },
     },
     extensions: [
-      StarterKit,
+      liveblocks,
+      StarterKit.configure({
+        history: false,
+      }),
       LineHeightExtension.configure({
         types: ['heading', 'paragraph'],
         defaultLineHeight: 'normal',
@@ -99,6 +105,7 @@ export const Editor = () => {
       <Ruler />
       <div className="min-w-max flex justify-center w-[816px] py-4 print:py-0 mx-auto print:w-full print:min-w-0">
         <EditorContent editor={editor} />
+        <Threads editor={editor} />
       </div>
     </div>
   )
